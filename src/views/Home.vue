@@ -21,11 +21,7 @@
 
     <div class="container">
       <div class="container" v-for="(counter, index) in counters" :key="index">
-        <Contador
-          :counter="counter.id"
-          :count="counter.count"
-          :name="counter.nombre"
-        />
+        <Contador :counter="counter.id" :count="counter.count" :name="nombre" />
       </div>
     </div>
 

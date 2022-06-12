@@ -44,11 +44,6 @@ export default {
       "setDecrement",
       "setName",
     ]),
-    agregarNombre() {
-      this.counters({
-        nombre: this.name,
-      });
-    },
   },
 };
 </script>

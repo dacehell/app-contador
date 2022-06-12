@@ -18,7 +18,6 @@ export default new Vuex.Store({
         .map((counter) => counter.count)
         .reduce((prev, curr) => prev + curr, 0);
       return sumAll;
-      console.log(sumAll);
     },
     SORT_COUNTERS(state, payload) {
       state.counters.sort((a, b) => {
@@ -41,7 +40,7 @@ export default new Vuex.Store({
       const newCounter = { id, count: 0, nombre: "" };
       state.counters.length < 20
         ? state.counters.push(newCounter)
-        : alert("no se puede agregar mas");
+        : alert("no se puede agregar mas de 20 contadores");
     },
     DELETE_COUNTER(state, id) {
       const counterIndex = state.counters.findIndex(
