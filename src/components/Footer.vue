@@ -2,14 +2,24 @@
   <footer class="footer">
     <div class="container">
       <p>Total</p>
-      <div class="footer__total"></div>
+      <div class="footer__total">{{ sumAllCounters() }}</div>
     </div>
   </footer>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Footer",
+  computed: {
+    ...mapState(["counters"]),
+  },
+  methods: {
+    ...mapActions(["sumAllCounters"]),
+  },
+  created() {
+    this.sumAllCounters();
+  },
 };
 </script>
 

@@ -1,10 +1,10 @@
 <template>
   <header class="header">
     <div class="container">
-      <select class="header__select" name="select">
-        <option value="value1">Ascendente</option>
-        <option value="value2" selected>Orden contador</option>
-        <option value="value3">Descendente</option>
+      <select v-model="selected" class="header__select" name="sort">
+        <option selected>--</option>
+        <option :value="sortCounters">Ascendente</option>
+        <option :value="descendente">Descendente</option>
       </select>
       <div class="header__filter">
         <label for="header__filter__list"> >= </label>
@@ -16,8 +16,25 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Header",
+  data() {
+    return {
+      selected: "",
+    };
+  },
+  methods: {
+    ...mapActions(["sortCounters"]),
+  },
+  computed: {
+    ...mapState(["counters"]),
+  },
+  watch: {
+    selected: function (val, oldVal) {
+      this.$store.dispatch("sortCounters", val);
+    },
+  },
 };
 </script>
 

@@ -1,23 +1,22 @@
 <template>
   <div class="container">
-    <div>
-      <input type="text" v-model="label" />
-      <button @click="addCounter">agregar</button>
-    </div>
-    <div class="card" v-for="(counter, index) in counters" :key="index">
-      <p class="card__title">{{ label }} {{ index }}</p>
+    <div class="card">
+      <p class="card__title">{{ name }}</p>
       <div class="card__body">
-        <button @click="increment" class="card__body__btn__increase">
+        <button
+          @click="setIncrement(counter)"
+          class="card__body__btn__increase"
+        >
           <font-awesome-icon icon="fa-solid fa-plus " />
         </button>
-        <div class="card__body__box">{{ counterDisplay }}</div>
-        <button @click="decrement" class="card__body__btn__decrease">
+        <div class="card__body__box">{{ count }}</div>
+        <button
+          @click="setDecrement(counter)"
+          class="card__body__btn__decrease"
+        >
           <font-awesome-icon icon="fa-solid fa-minus" />
         </button>
-        <button
-          @click="deleteCounter(counter.index)"
-          class="card__body__btn__delete"
-        >
+        <button @click="deleteCounter(counter)" class="card__body__btn__delete">
           <font-awesome-icon icon="fa-solid fa-trash-can" />
         </button>
       </div>
@@ -29,47 +28,45 @@
 import { mapState, mapActions } from "vuex";
 export default {
   name: "Contador",
+  props: ["counter", "count", "name"],
   data() {
-    return {
-      counterDisplay: 0,
-      label: "",
-    };
+    return {};
   },
   computed: {
     ...mapState(["counters"]),
     // ...mapGetters(["getAllCounters"]),
   },
   methods: {
-    increment() {
-      this.counterDisplay < 20 ? this.counterDisplay++ : this.counterDisplay;
-    },
-    decrement() {
-      this.counterDisplay > 0 ? this.counterDisplay-- : this.counterDisplay;
-    },
     ...mapActions([
       "deleteCounter",
       "addCounter",
-      //   "setIncrement",
-      //   "setDecrement",
+      "setIncrement",
+      "setDecrement",
+      "setName",
     ]),
+    agregarNombre() {
+      this.counters({
+        nombre: this.name,
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.container {
-  display: grid;
-  gap: 1rem;
-  grid-auto-rows: 16rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
-  justify-items: center;
-  align-items: center;
-}
+// .container {
+//   display: grid;
+//   gap: 1rem;
+//   grid-auto-rows: 16rem;
+//   grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+//   justify-items: center;
+//   align-items: center;
+// }
 .card {
   margin: 10px;
   width: 380px;
   height: 150px;
-  background-color: #82ffdc;
+  background-color: #66e3df;
   border-radius: 10px;
   &__title {
     font-size: 2rem;
