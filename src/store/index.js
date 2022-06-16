@@ -9,24 +9,14 @@ export default new Vuex.Store({
   },
   getters: {},
   mutations: {
-    // SET_NAME(state, nombre) {
-    //   const counter = state.counters.find((c) => c.id === id);
-    //   counter.nombre = nombre;
+    // SORT_COUNTERS(state, payload) {
+    //   state.counters.sort((a, b) => {
+    //     if (a.count > b.count) {
+    //       return 1;
+    //     }
+    //     return 0;
+    //   });
     // },
-    SUM_ALL_COUNTERS(state, payload) {
-      const sumAll = state.counters
-        .map((counter) => counter.count)
-        .reduce((prev, curr) => prev + curr, 0);
-      return sumAll;
-    },
-    SORT_COUNTERS(state, payload) {
-      state.counters.sort((a, b) => {
-        if (a.count > b.count) {
-          return 1;
-        }
-        return 0;
-      });
-    },
     SET_INCREMENT(state, id) {
       const counter = state.counters.find((c) => c.id === id);
       counter.count++;
@@ -37,11 +27,15 @@ export default new Vuex.Store({
     },
     ADD_COUNTER(state, payload) {
       const id = Math.round(Math.random() * 9999);
-      const newCounter = { id, count: 0, nombre: "" };
-      state.counters.length < 20
-        ? state.counters.push(newCounter)
-        : alert("no se puede agregar mas de 20 contadores");
+      let nombre = state.counters.nombre;
+      const newCounter = { id, count: 0, nombre };
+      state.counters.nombre !== undefined && state.counters.nombre !== ""
+        ? state.counters.length < 20
+          ? state.counters.push(newCounter)
+          : alert("no se puede agregar mas de 20 contadores")
+        : alert("no debe estar vacio el nombre del contador");
     },
+
     DELETE_COUNTER(state, id) {
       const counterIndex = state.counters.findIndex(
         (counter) => counter.id === id
@@ -50,17 +44,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // setName({ commit, state }, nombre, id) {
-    //   const counter = state.counters.find((c) => c.id === id);
-    //   counter.nombre = nombre;
-    //   commit("SET_NAME", nombre);
+    // sortCounters({ commit }, value) {
+    //   commit("SORT_COUNTERS", value);
     // },
-    sumAllCounters({ commit }, counter) {
-      commit("SUM_ALL_COUNTERS", counter);
-    },
-    sortCounters({ commit }, value) {
-      commit("SORT_COUNTERS", value);
-    },
     setIncrement({ commit, state }, id) {
       const counter = state.counters.find((c) => c.id === id);
       if (counter.count < 20) commit("SET_INCREMENT", id);
@@ -81,6 +67,20 @@ export default new Vuex.Store({
   getters: {
     getAllCounters(state) {
       return state.counters;
+    },
+    sumAllCounters(state) {
+      const sumAll = state.counters
+        .map((counter) => counter.count)
+        .reduce((prev, curr) => prev + curr, 0);
+      return sumAll;
+    },
+    sortCounters(state) {
+      state.counters.sort((a, b) => {
+        if (a.count > b.count) {
+          return 1;
+        }
+        return 0;
+      });
     },
   },
   modules: {},

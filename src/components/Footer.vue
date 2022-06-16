@@ -1,25 +1,21 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <p>Total</p>
-      <div class="footer__total">{{ sumAllCounters() }}</div>
+      <p>Suma contadores</p>
+      <div class="footer__total">{{ sumAllCounters }}</div>
     </div>
   </footer>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   name: "Footer",
   computed: {
     ...mapState(["counters"]),
+    ...mapGetters(["sumAllCounters"]),
   },
-  methods: {
-    ...mapActions(["sumAllCounters"]),
-  },
-  created() {
-    this.sumAllCounters();
-  },
+  methods: {},
 };
 </script>
 
@@ -40,7 +36,11 @@ export default {
     width: 60px;
     height: 40px;
     border-radius: 5px;
-    background-color: bisque;
+    background-color: #c0ede0;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 .container {

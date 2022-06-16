@@ -10,7 +10,7 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div class="inputCounter">
-          <input type="text" v-model="nombre" />
+          <input type="text" v-model="counters.nombre" />
           <div class="btn">
             <button class="btn__counter" @click="addCounter">Confirmar</button>
             <button class="btn__counter">Cancelar</button>
@@ -21,7 +21,11 @@
 
     <div class="container">
       <div class="container" v-for="(counter, index) in counters" :key="index">
-        <Contador :counter="counter.id" :count="counter.count" :name="nombre" />
+        <Contador
+          :counter="counter.id"
+          :count="counter.count"
+          :name="counter.nombre"
+        />
       </div>
     </div>
 
@@ -43,7 +47,7 @@ export default {
   },
   data() {
     return {
-      nombre: "",
+      nombre: [],
     };
   },
   computed: {
@@ -51,6 +55,7 @@ export default {
   },
   methods: {
     ...mapActions(["addCounter"]),
+
     getModal() {
       // Get the modal
       const modal = document.getElementById("myModal");
@@ -84,7 +89,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  margin: 70px 0;
+  margin: 70px 20px;
   display: grid;
   gap: 1rem;
   grid-auto-rows: 16rem;
