@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Header />
-
+    <Header :sortAscend="setSortAscending" :sortDescend="setSortDescending" />
+    <!-- <button @click="setSortLowest">lowest</button> -->
     <button class="new__counter" @click="getModal" id="myBtn">
       <font-awesome-icon icon="fa-solid fa-plus" />
     </button>
@@ -48,14 +48,20 @@ export default {
   data() {
     return {
       nombre: [],
+      sortCounterUp: [],
     };
   },
   computed: {
     ...mapState(["counters"]),
   },
   methods: {
-    ...mapActions(["addCounter"]),
-
+    ...mapActions(["addCounter", "sortAscending", "sortDescending"]),
+    setSortAscending() {
+      this.sortAscending(this.counters);
+    },
+    setSortDescending() {
+      this.sortDescending(this.counters);
+    },
     getModal() {
       // Get the modal
       const modal = document.getElementById("myModal");

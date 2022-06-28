@@ -1,11 +1,19 @@
 <template>
   <header class="header">
     <div class="container">
-      <select v-model="selected" class="header__select" name="sort">
-        <option selected>--</option>
-        <option>Ascendente</option>
-        <option>Descendente</option>
-      </select>
+      <form>
+        <select
+          v-model="selected"
+          class="header__select"
+          name="sort"
+          @change="setSortLow()"
+        >
+          <option value="" selected>Order by</option>
+          <option value="ascendente">Ascendente</option>
+          <option value="descendente">Descendente</option>
+        </select>
+      </form>
+
       <div class="header__filter">
         <label for="header__filter__list"> >= </label>
         <input class="header__filter__input" name="filter-list" type="text" />
@@ -16,18 +24,30 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "Header",
+  props: ["sortAscend", "sortDescend"],
   data() {
     return {
       selected: "",
     };
   },
-  methods: {},
+  methods: {
+    setSortLow() {
+      if (this.selected === "ascendente") {
+        this.sortAscend();
+      } else if (this.selected === "descendente") {
+        this.sortDescend();
+      } else {
+        this.selected;
+      }
+      // this.selected == "ascendente" ? this.sortLow() : this.sortDescend();
+    },
+  },
+
   computed: {
     ...mapState(["counters"]),
-    ...mapGetters(["sortCounters"]),
   },
 };
 </script>

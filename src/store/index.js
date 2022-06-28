@@ -9,14 +9,12 @@ export default new Vuex.Store({
   },
   getters: {},
   mutations: {
-    // SORT_COUNTERS(state, payload) {
-    //   state.counters.sort((a, b) => {
-    //     if (a.count > b.count) {
-    //       return 1;
-    //     }
-    //     return 0;
-    //   });
-    // },
+    SORT_ASCENDING(state, payload) {
+      state.counters.sort((a, b) => (a.count > b.count ? 1 : -1));
+    },
+    SORT_DESCENDING(state, payload) {
+      state.counters.sort((a, b) => (a.count < b.count ? 1 : -1));
+    },
     SET_INCREMENT(state, id) {
       const counter = state.counters.find((c) => c.id === id);
       counter.count++;
@@ -44,9 +42,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // sortCounters({ commit }, value) {
-    //   commit("SORT_COUNTERS", value);
-    // },
+    sortAscending({ commit }, counter) {
+      commit("SORT_ASCENDING", counter);
+    },
+    sortDescending({ commit }, counter) {
+      commit("SORT_DESCENDING", counter);
+    },
     setIncrement({ commit, state }, id) {
       const counter = state.counters.find((c) => c.id === id);
       if (counter.count < 20) commit("SET_INCREMENT", id);
@@ -73,14 +74,6 @@ export default new Vuex.Store({
         .map((counter) => counter.count)
         .reduce((prev, curr) => prev + curr, 0);
       return sumAll;
-    },
-    sortCounters(state) {
-      state.counters.sort((a, b) => {
-        if (a.count > b.count) {
-          return 1;
-        }
-        return 0;
-      });
     },
   },
   modules: {},
