@@ -2,11 +2,11 @@
   <div>
     <Header :sortAscend="setSortAscending" :sortDescend="setSortDescending" />
     <!-- <button @click="setSortLowest">lowest</button> -->
-    <button class="new__counter" @click="getModal" id="myBtn">
+    <button class="new__counter" id="show-modal" @click="showModal = true">
       <font-awesome-icon icon="fa-solid fa-plus" />
     </button>
-    <div id="myModal" class="modal">
-      <!-- Modal content -->
+    <!-- <div id="myModal" class="modal" v-if="showModal" @close="showModal = false">
+      Modal content
       <div class="modal-content">
         <span class="close">&times;</span>
         <div class="inputCounter">
@@ -17,8 +17,35 @@
           </div>
         </div>
       </div>
-    </div>
-
+    </div> -->
+    <transition name="modal" v-if="showModal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-container">
+            <div class="modal-body">
+              <h2>Agregar nuevo contador</h2>
+              <slot name="body">
+                <div class="inputCounter">
+                  <input
+                    type="text"
+                    v-model="counters.nombre"
+                    placeholder="Ingrese nombre"
+                  />
+                  <div class="btn">
+                    <button class="btn__counter" @click="addCounter">
+                      Confirmar
+                    </button>
+                    <button class="btn__counter" @click="showModal = false">
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </slot>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
     <div class="container">
       <div class="container" v-for="(counter, index) in counters" :key="index">
         <Contador
@@ -37,6 +64,7 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import Contador from "@/components/Contador.vue";
+//import Modal from "@/components/Modal.vue";
 import { mapState, mapActions } from "vuex";
 export default {
   name: "Home",
@@ -49,6 +77,7 @@ export default {
     return {
       nombre: [],
       sortCounterUp: [],
+      showModal: false,
     };
   },
   computed: {
@@ -98,7 +127,7 @@ export default {
   margin: 70px 20px;
   display: grid;
   gap: 1rem;
-  grid-auto-rows: 16rem;
+  grid-auto-rows: 12rem;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
   justify-items: center;
   align-items: center;
@@ -112,7 +141,7 @@ export default {
     height: 40%;
     border-radius: 8px;
   }
-  width: 80%;
+  width: 100%;
   height: 100px;
   background-color: blue;
   display: flex;
@@ -132,47 +161,59 @@ export default {
 
 /* modal*/
 /* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
 }
 
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
   width: 80%;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+.modal-body {
+  margin: 10px 0;
+  h2 {
+    text-align: center;
+  }
 }
 
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+.modal-enter {
+  opacity: 0;
 }
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
 .new__counter {
   position: fixed;
   right: 50px;
-  top: 122px;
+  top: 107px;
   width: 60px;
   height: 60px;
   border: none;

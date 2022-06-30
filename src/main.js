@@ -8,6 +8,10 @@ import { faMinus, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
+import VModal from "vue-js-modal";
+
+Vue.use(VModal);
+
 library.add(faPlus, faMinus, faTrashCan);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

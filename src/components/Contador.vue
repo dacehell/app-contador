@@ -59,7 +59,7 @@ export default {
 // }
 .card {
   margin: 10px;
-  width: 380px;
+  width: 300px;
   height: 150px;
   background-color: #66e3df;
   border-radius: 10px;
