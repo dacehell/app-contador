@@ -1,23 +1,15 @@
 <template>
   <div>
-    <Header :sortAscend="setSortAscending" :sortDescend="setSortDescending" />
+    <Header
+      :sortAscend="setSortAscending"
+      :sortDescend="setSortDescending"
+      :rangeMinMax="setRange"
+    />
     <!-- <button @click="setSortLowest">lowest</button> -->
     <button class="new__counter" id="show-modal" @click="showModal = true">
       <font-awesome-icon icon="fa-solid fa-plus" />
     </button>
-    <!-- <div id="myModal" class="modal" v-if="showModal" @close="showModal = false">
-      Modal content
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="inputCounter">
-          <input type="text" v-model="counters.nombre" />
-          <div class="btn">
-            <button class="btn__counter" @click="addCounter">Confirmar</button>
-            <button class="btn__counter">Cancelar</button>
-          </div>
-        </div>
-      </div>
-    </div> -->
+
     <transition name="modal" v-if="showModal">
       <div class="modal-mask">
         <div class="modal-wrapper">
@@ -75,8 +67,6 @@ export default {
   },
   data() {
     return {
-      nombre: [],
-      sortCounterUp: [],
       showModal: false,
     };
   },
@@ -84,39 +74,20 @@ export default {
     ...mapState(["counters"]),
   },
   methods: {
-    ...mapActions(["addCounter", "sortAscending", "sortDescending"]),
+    ...mapActions([
+      "addCounter",
+      "sortAscending",
+      "sortDescending",
+      "filterByNumber",
+    ]),
     setSortAscending() {
       this.sortAscending(this.counters);
     },
     setSortDescending() {
       this.sortDescending(this.counters);
     },
-    getModal() {
-      // Get the modal
-      const modal = document.getElementById("myModal");
-
-      // Get the button that opens the modal
-      const btn = document.getElementById("myBtn");
-
-      // Get the <span> element that closes the modal
-      const span = document.getElementsByClassName("close")[0];
-
-      // When the user clicks the button, open the modal
-      btn.onclick = function () {
-        modal.style.display = "block";
-      };
-
-      // When the user clicks on <span> (x), close the modal
-      span.onclick = function () {
-        modal.style.display = "none";
-      };
-
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      };
+    setRange() {
+      this.filterByNumber(this.counters);
     },
   },
 };

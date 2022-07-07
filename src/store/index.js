@@ -1,3 +1,4 @@
+import { counter } from "@fortawesome/fontawesome-svg-core";
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -6,9 +7,22 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     counters: [],
+    min: 3,
+    max: 6,
   },
-  getters: {},
+
   mutations: {
+    FILTER_BY_NUMBER(state, min, max) {
+      // Object.keys(state.counters).forEach((key) => {
+      //   return console.log(state.counters[key]);
+      // })
+
+      const hey = state.counters.filter(
+        (counter) => counter.count >= state.min && counter.count <= state.max
+      );
+
+      return console.log(hey);
+    },
     SORT_ASCENDING(state, payload) {
       state.counters.sort((a, b) => (a.count > b.count ? 1 : -1));
     },
@@ -42,6 +56,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    filterByNumber({ commit }, counter, min, max) {
+      commit("FILTER_BY_NUMBER", counter, min, max);
+    },
     sortAscending({ commit }, counter) {
       commit("SORT_ASCENDING", counter);
     },

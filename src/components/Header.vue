@@ -9,15 +9,34 @@
           @change="setSortLow()"
         >
           <option value="" selected>Order by</option>
-          <option value="ascendente">Ascendente</option>
-          <option value="descendente">Descendente</option>
+          <option value="ascendente">Ascendent</option>
+          <option value="descendente">Descendent</option>
         </select>
       </form>
 
       <div class="header__filter">
-        <label for="header__filter__list"> >= </label>
-        <input class="header__filter__input" name="filter-list" type="text" />
-        <button class="header__filter__button">add</button>
+        <form @submit.prevent="setRangeMinMax">
+          <input
+            class="header__filter__input"
+            name="filter-list"
+            type="text"
+            placeholder="$Min"
+            v-model="setMin"
+            required
+            :min="min"
+          />
+
+          <input
+            class="header__filter__input"
+            name="filter-list"
+            type="text"
+            placeholder="$Max"
+            v-model="setMax"
+            required
+            :max="max"
+          />
+          <button class="header__filter__button">Go</button>
+        </form>
       </div>
     </div>
   </header>
@@ -27,10 +46,12 @@
 import { mapState } from "vuex";
 export default {
   name: "Header",
-  props: ["sortAscend", "sortDescend"],
+  props: ["sortAscend", "sortDescend", "rangeMinMax"],
   data() {
     return {
       selected: "",
+      setMin: "",
+      setMax: "",
     };
   },
   methods: {
@@ -47,7 +68,17 @@ export default {
   },
 
   computed: {
-    ...mapState(["counters"]),
+    ...mapState(["counters", "min", "max"]),
+    setRangeMinMax: {
+      get() {
+        let hi = this.rangeMinMax(this.setMin, this.setMax);
+        return console.log(hi);
+      },
+      set() {
+        this.min = this.setMin;
+        this.max = this.setMax;
+      },
+    },
   },
 };
 </script>
@@ -59,15 +90,17 @@ export default {
     &__input {
       padding: 0;
       border: none;
-      width: 40px;
-      height: 40px;
+      width: 46px;
+      height: 46px;
       border-radius: 5px;
+      margin: 0 10px;
+      font-size: 1rem;
     }
     &__button {
-      margin-left: 30px;
-      width: 50px;
-      height: 50px;
-      border-radius: 5px;
+      margin-left: 10px;
+      width: 46px;
+      height: 46px;
+      font-size: 1rem;
       border: none;
       border-radius: 50%;
     }
